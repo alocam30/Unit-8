@@ -1,6 +1,11 @@
 extends layout.pug
 
 block content
-  h1= Page Not Found
-  h2= error.status
-  pre #{error.stack}
+  h1= `Server Error`
+  h2= `Error states code: ${err.status} - Server Error`
+  p.error-p= `${err.message}`
+
+  a.home(href=`/`) Home 
+
+  div.not-found-stack
+    pre #{err.stack}
