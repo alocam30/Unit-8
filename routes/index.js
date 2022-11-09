@@ -3,7 +3,6 @@ var router = express.Router();
 const Book = require('../models').Book;
 const books = require('../models/book');
 
-/* GET home page. */
 
 function asyncHandler(cb){
   return async(req, res, next) => {
@@ -14,28 +13,49 @@ function asyncHandler(cb){
       next(error);
     }
   }
-}
+};
 
-    router.get('/', asyncHandler(async (req, res) => {
+
+/* GET home page. */
+router.get("/", (req, res, next) => {
+  res.redirect("/books");
+  next();
+});
+
+//shows full list of books
+    router.get('/books', asyncHandler(async (req, res) => {
       const allBooks = await Book.findAll();
-      res.render("index", { books })
+      res.render("index", { allBooks })
+      // res.json({ allBooks });
     }))
 
 
 
-//shows full list of books
-
-//shows the create new book form
+// creates new book form
+router.get('/books/new', asyncHandler(async (req, res) => {
+  res.render("new-book", {book: req.body})
+}));
 
 //posts a new book to the database
-router.post
+router.post('/books/new', asyncHandler(async (req, res) => {
+  const book = await Book.create(req.body);
+  res.redirect("/books/new" + book.id);
+}))
 
-//shows book detail form
-router.get("/books/:id", );
+
+//displays book detail form
+router.get("/books/:id", asyncHandler(async (req, res) => {
+  const book = await Book.findByPk(req.params.id);
+  res.render("update-book", { book })
+}));
 
 
 //updates book info in the database
-router.post("/books/:id")
+router.post("/books/:id", asyncHandler( async (req, res) => {
+  const book = await Book.findByPk(req.params.id);
+  await book.update(req.body);
+  res.redirect("/books" + book.id);
+}));
 
 //Deletes a book
 
