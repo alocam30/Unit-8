@@ -1,6 +1,13 @@
+//- if(errors)
+//-   h1= title
+//-     h2.error Oooops!
+//-     ul.error
+//-       each error in errors
+//-         li= error.message
+
 if(errors)
-  h1= title
     h2.error Oooops!
     ul.error
-      each error in errors
-        li= error.message
+        each error in errors
+         li Title is required
+         li Author is required

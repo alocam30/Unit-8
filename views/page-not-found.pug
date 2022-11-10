@@ -1,9 +1,14 @@
 extends layout.pug 
 
 block content 
-h1 Page Not Found
-p Sorry! We could not find the page you were looking for.
-br
-p
-  a.button(href='all_books.html') Home
+  .container 
+    h1= `Page Not Found`
+    p.not-found-p= `Sorry! We couldn't find the page you were looking for.`
+
+    a.home(href='/') Home
+
+    if err 
+
+      .not-found-stack 
+        pre #{err.stack}
 
