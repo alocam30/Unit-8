@@ -1,14 +1,13 @@
 //import sequelize
-const sequelize = require('./models/index.js').sequelize;
+const Sequelize = require('./models/index.js').sequelize;
 
 (async () => {
   //sync the model with the database
-  await sequelize.sync({
-    force: true
+  await Sequelize.sync({
   });
   try {
     //used authenticate() method to connect asynchronously to the database
-    await sequelize.authenticate();
+    await Sequelize.authenticate();
     console.log('Connection to the database successful!');
   } catch (error) {
     console.error('Error connection to the database: ', error);
@@ -21,11 +20,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const db = require("./models/index")
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// var usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
 
 const routes = require('./routes/index');
 const users = require('./routes/users');
