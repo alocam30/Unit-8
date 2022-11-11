@@ -1,7 +1,7 @@
 extends layout
 
 block content 
-  .container 
+  div.container 
     h1= `Page Not Found`
     p.not-found-p= `Sorry! We couldn't find the page you were looking for.`
 
@@ -9,6 +9,6 @@ block content
 
     if err 
 
-      .not-found-stack 
+      div.not-found-stack 
         pre #{err.stack}
 
