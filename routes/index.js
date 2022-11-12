@@ -3,7 +3,7 @@ const book = require('../models/book');
 var router = express.Router();
 const Book = require('../models').Book;
 const Sequelize = require('sequelize');
-
+const createError = require('http-errors');
 
 
 function asyncHandler(cb){
@@ -42,16 +42,11 @@ router.post('/books/new', asyncHandler(async (req, res) => {
   let book;
   try {
    book = await Book.create(req.body);
-   res.redirect("/books" + book.id);
+   res.redirect("/books/" + book.id);
   } catch (error) {
-    if(error.name === "SequelizeValidationError") { //checking the error
-      book = await Book.build(req.body);
       res.render("new-book", {book, errors: error.errors, title: "New Book" });
-    } else {
-      throw error; //error caught in the asyncHandler's catch block
-    }
-  }
-}));
+    } 
+  }));
 
 
 //displays book detail form
