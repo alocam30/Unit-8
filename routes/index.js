@@ -83,14 +83,20 @@ router.post("/books/:id", asyncHandler( async (req, res) => {
 ));
 
 // Deletes a book
-router.post("/books/:id/delete", asyncHandler( async (req, res) => {
-  const book = await Book.findByPk(req.params.id);
+router.post("/books/:id/delete", asyncHandler( async (req, res, next) => {
+ let bookId = req.params.id
+ try {
+  let book = await Book.findOne({ where: { id: bookId}})
   if (book) {
     await book.destroy();
     res.redirect("/books")
   } else {
-    res.sendStatus(404)
+    next(createError(404, "Could not find any books with this id"))
   }
+ }
+ catch (error) {
+  next(error)
+ }
 }));
 
 
