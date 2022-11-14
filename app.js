@@ -43,21 +43,28 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/books', users);
 
+const err = new Error();
+
 //  error handler
 app.use((req, res, next) => {
-  const err = new Error();
-  err.status = 404;
-  err.message = 'Looks like something went wrong.';
+  const err = new Error(); 
+  err.status = 404;  
+  err.message = 'Sorry, we unfortunately do not have a page that matches your search. Please try again.'
+  // res.render(("page-not-found"), {err})
   next(err);
-  res.render(("page-not-found"),{err} );
 });
 
+
 // global error handler
-app.use(function(err, req, res, next) {
-  console.log(err.status);
-  console.log(err.message);
-  // res.status(err.status || 500);
-  res.render(('error'), {err});
+app.use(function(err, req, res, next) { 
+    if (err.status === 404) {
+      res.status(err.status);
+      res.render("page-not-found", { err })
+    } else {
+      err.message = err.message || `Sorry! There was an unexpected error.`;
+      res.status(err.status || 500);
+      res.render('error', {err});
+    }
 });
 
 

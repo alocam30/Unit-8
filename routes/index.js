@@ -55,7 +55,10 @@ router.get("/books/:id", asyncHandler(async (req, res, next) => {
   if (book) {
   res.render("update-book", { book });
   } else {
-    next(createError(404))
+    const err = new Error();
+    err.status= 404;
+    err.message = "Could not find any books with this id"
+    next(err);
   }
 }));
 
